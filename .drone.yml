@@ -1,0 +1,24 @@
+build:
+  image: node:5
+  commands:
+    - npm install -g bower
+    - npm install
+    - cd public/assets
+    - bower install --allow-root
+    - cd ../..
+deploy:
+  rsync:
+    user: ubuntu
+    host: 52.77.220.114
+    port: 22
+    source: public
+    target: ywc
+    delete: true
+    recursive: true
+    commands:
+      - sudo service nginx restart
+notify:
+  slack:
+    webhook_url: https://hooks.slack.com/services/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
+    channel: ywc-drone
+    username: Drone
